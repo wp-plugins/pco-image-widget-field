@@ -2,8 +2,8 @@
 Contributors: PeytzCo, Compute, jamesbonham
 Tags: image, upload, widget
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 1.0.1
+Tested up to: 3.8.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,8 @@ By calling `pco_image_field()` inside your widget's form() function, you will be
 * Danish by [compute](http://profiles.wordpress.org/compute)
 
 There are just a few strings to translate. However, it would be great to have more languages available. Please [contact us](mailto:wordpress@peytz.dk) to add your translation to the plugin!
+
+Contribute to [this project](https://github.com/Peytz-WordPress/pco-image-widget-field) on [github](https://github.com/Peytz-WordPress) or find [all of our favorite and custom made plugins](http://profiles.wordpress.org/peytzco/) 
 
 == Installation ==
 
@@ -91,6 +93,9 @@ Please add a new ticket inside our support forum and tell us about the feature r
 4. And output the image in your widget.
 
 == Changelog ==
+
+= 1.0.2 =
+* Make sure this plugin works together with the customizer
 
 = 1.0.1 =
 * Better handling of styles
