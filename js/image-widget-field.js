@@ -1,7 +1,7 @@
 // Scripts file for the admin screens
 
-jQuery(document).ready(function($) {
-	pcoImageWidget($); 
+jQuery( document ).ready( function( $ ) {
+	pcoImageWidget( $ );
 });
 
 function pcoImageWidget($) {
@@ -9,8 +9,9 @@ function pcoImageWidget($) {
 		// Load the frame
 		frame: function() {
 			// Return the frame if it already exists
-			if ( this._frame )
+			if ( this._frame ) {
 				return this._frame;
+			}
 
 			// Initialize the frame
 			this._frame = wp.media({
@@ -22,8 +23,8 @@ function pcoImageWidget($) {
 			});
 
 			// On specific events
-			this._frame.on('open', this.updateFrame);
-			this._frame.state('library').on('select', this.select);
+			this._frame.on( 'open', this.updateFrame );
+			this._frame.state( 'library' ).on( 'select', this.select );
 
 			// Save the frame
 			return this._frame;
@@ -32,7 +33,7 @@ function pcoImageWidget($) {
 		// When the frame is closing
 		select: function() {
 			// Closing the frame and selecting image
-			var selection = this.get('selection');
+			var selection = this.get( 'selection' );
 			//TODO more images var attachmentIds = [];
 
 			// If a target has been selected get the id and put it inside a variable
@@ -47,35 +48,39 @@ function pcoImageWidget($) {
 
 				if ( attachment.id ) {
 					// Get the image inside the widget
-					var img = $("#pco-image-" + data.target + ".pco-image .image-section div img");
+					var img = $( '#pco-image-' + data.target + '.pco-image .image-section div img' );
 					// Find the right widget from the data target
-					var sectionImage = $("#pco-image-" + data.target + " .image-section");
-					var sectionNewImage = $("#pco-image-" + data.target + " .newimage-section");
-					var imageField = $(sectionImage).find(".pco-image-id");
+					var sectionImage = $( '#pco-image-' + data.target + ' .image-section' );
+					var sectionNewImage = $( '#pco-image-' + data.target + ' .newimage-section' );
+					var imageField = $( sectionImage ).find( '.pco-image-id' );
+
+					// Trigger WP customizer
+					$( imageField ).trigger( 'change' );
 
 					//TODO more images attachmentIds.push(attachment.id);
 					// Change the src on the image chosen
 					// When the image is too small it will not return attachment.sizes
-					if( attachment.sizes && attachment.sizes.medium )
-						$(img).attr("src", attachment.sizes.medium.url );
-					else
-						$(img).attr("src", attachment.url );
+					if ( attachment.sizes && attachment.sizes.medium ) {
+						$( img ).attr( 'src', attachment.sizes.medium.url );
+					} else {
+						$( img ).attr( 'src', attachment.url );
+					}
 
 					// If there is an id show the image and hide the bigger button
-					if( imageField.val() > 0 ) {
+					if ( imageField.val() > 0 ) {
 						sectionImage.show();
 						sectionNewImage.hide();
-					};
+					}
 				}
 			});
 
-			//TODO more images attachmentIds = attachmentIds.join(",");
+			//TODO more images attachmentIds = attachmentIds.join(',');
 		},
 
 		// When the frame is opening
 		updateFrame: function() {
 			// Get the selected image to also make it selected when we open the frame
-			var selection = this.get('library').get('selection');
+			var selection = this.get( 'library' ).get( 'selection' );
 			var attachment;
 
 			if ( target.length ) {
@@ -95,31 +100,32 @@ function pcoImageWidget($) {
 		// Initialize the whole object
 		init: function(selectors) {
 			// Initialize all pco-image widgets: show or hide image/newImage
-			var imageFields = $(".pco-image");
+			var imageFields = $( '.pco-image' );
+
 			$.each(imageFields, function() {
-				var sectionImage = $(this).find(".image-section");
-				var sectionNewImage = $(this).find(".newimage-section");
-				var imageField = $(sectionImage).find(".pco-image-id");
+				var sectionImage    = $( '.image-section', this );
+				var sectionNewImage = $( '.newimage-section', this );
+				var imageField      = $( '.pco-image-id', sectionImage );
 
 				// If there is an id show the image and hide the bigger button
-				if( imageField.val() > 0 ) {
+				if ( imageField.val() > 0 ) {
 					sectionImage.show();
 					sectionNewImage.hide();
-				};
+				}
 			});
 
 			// Make sure the markup stays the same even after a click on the save button
-			$(selectors).on('click', '.widget-control-save', function() {
+			$( selectors ).on( 'click', '.widget-control-save', function() {
 				// Do this after the ajax call and the values has been saved
-				$(this).ajaxSuccess(function() {
+				$( this ).ajaxSuccess( function() {
 					// Same thing as when we initialized the pco-image widgets. Just only initialize the one with the button clicked
-					var form = $(this).closest("form");
-					var sectionImage = $(form).find(".image-section");
-					var sectionNewImage = $(form).find(".newimage-section");
-					var imageField = $(sectionImage).find(".pco-image-id");
+					var form            = $( this ).closest( 'form' );
+					var sectionImage    = $( form ).find( '.image-section' );
+					var sectionNewImage = $( form ).find( '.newimage-section' );
+					var imageField      = $( sectionImage ).find( '.pco-image-id' );
 
 					// If there is an id show the image and hide the bigger button
-					if( imageField.val() > 0 ) {
+					if ( imageField.val() > 0 ) {
 						sectionImage.show();
 						sectionNewImage.hide();
 					}
@@ -127,37 +133,41 @@ function pcoImageWidget($) {
 			});
 
 			// Open media frame when we click the image button
-			$(selectors).on('click', '.pco-image-select', function(e) {
+			$( selectors ).on( 'click', '.pco-image-select', function( e ) {
 				e.preventDefault();
 
-				// Save all the data- attr inside a global variable
-				data = $(this).data();
-				// The target is the hidden field inside the .image-section
-				target = $(".image-section #" + data.target);
+				data   = $( this ).data();                      // Save all the data- attr inside a global variable
+				target = $( '.image-section #' + data.target ); // The target is the hidden field inside the .image-section
 
 				// Open the frame by calling the frame() function
 				pcoImage.frame().open();
 			});
 
 			// Hide image and set the target field to 0 to also remove it when the widget is saved
-			$(selectors).on('click', '.pco-image-remove', function(e) {
+			$( selectors ).on( 'click', '.pco-image-remove', function( e ) {
 				e.preventDefault();
 
-				var data = $(this).data();
-				var target = data.target;
+				var data   = $( this ).data();
+				var target = '#pco-image-' + data.target;
+
+				var imageField     = target + ' .image-section .pco-image-id';
+				var imageSection   = target + ' .image-section';
+				var imageNewSetion = target + ' .newimage-section';
 
 				// Set the target value to 0
-				$("#pco-image-" + target + " .image-section .pco-image-id").val(0);
+				$( imageField ).val( 0 );
 				// Hide image section as there now is no image
-				$("#pco-image-" + target + " .image-section").hide();
+				$( imageSection ).hide();
 				// Show the newimage section as there now is no image
-				$("#pco-image-" + target + " .newimage-section").show();
+				$( imageNewSetion ).show();
+
+				// Trigger WP customizer
+				$( imageField ).trigger( 'change' );
 			});
 		}
 	};
 
 	var selectors = '#wpbody, #customize-controls';
 
-	pcoImage.init(selectors);
+	pcoImage.init( selectors );
 }
-
