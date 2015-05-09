@@ -3,7 +3,7 @@ Contributors: PeytzCo, Compute, jamesbonham
 Tags: image, upload, widget
 Requires at least: 3.5
 Tested up to: 4.2
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,9 @@ Please add a new ticket inside our support forum and tell us about the feature r
 4. And output the image in your widget.
 
 == Changelog ==
+
+= 1.1.0 =
+* Trigger customizer whenever an update to an image field has accoured
 
 = 1.0.2 =
 * Make sure this plugin works together with the customizer
