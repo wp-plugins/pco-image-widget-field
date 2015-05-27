@@ -119,10 +119,10 @@ function pcoImageWidget($) {
 				// Do this after the ajax call and the values has been saved
 				$( this ).ajaxSuccess( function() {
 					// Same thing as when we initialized the pco-image widgets. Just only initialize the one with the button clicked
-					var form            = $( this ).closest( 'form' );
-					var sectionImage    = $( form ).find( '.image-section' );
-					var sectionNewImage = $( form ).find( '.newimage-section' );
-					var imageField      = $( sectionImage ).find( '.pco-image-id' );
+					var form            = $( 'form', this );
+					var sectionImage    = $( '.image-section', form );
+					var sectionNewImage = $( '.newimage-section', form );
+					var imageField      = $( '.pco-image-id', sectionImage );
 
 					// If there is an id show the image and hide the bigger button
 					if ( imageField.val() > 0 ) {

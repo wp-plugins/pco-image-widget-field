@@ -3,7 +3,7 @@
 Plugin Name: Pco Image Widget Field
 Plugin URI: http://peytz.dk/medarbejdere/
 Description: An easy way to add an image field to your custom build widget.
-Version: 1.1.0
+Version: 1.1.1
 Author: Peytz (Patrick Hesselberg & James Bonham)
 Author URI: http://peytz.dk/medarbejdere/
 */
@@ -26,19 +26,21 @@ function pco_image_field( $obj, $instance, $settings = array() ) {
 	$settings = wp_parse_args( $settings, $defaults );
 	extract( $settings );
 
-	$instance[ $field ] = !empty( $instance[ $field ] ) ? $instance[ $field ] : '';
+	$instance[ $field ] = ! empty( $instance[ $field ] ) ? $instance[ $field ] : '';
 	$image = wp_get_attachment_image_src( $instance[ $field ], apply_filters( 'pcoiwf_preview_size', 'medium' ) );
-	$src = !empty( $image ) ? current( $image ) : '';
+	$src = ! empty( $image ) ? current( $image ) : '';
+	$display_image = ! empty ( $src ) ? 'block' : 'none';
+	$display_newimage = ! empty ( $src ) ? 'none' : 'block';
 	?>
 	<div class="pco-image-wrap">
 		<?php $image_id = $obj->get_field_id( $field ); ?>
 
 		<div class="pco-image" id="pco-image-<?php echo $image_id; ?>">
-			<div class="newimage-section">
+			<div class="newimage-section" style="display:<?php echo $display_newimage; ?>;">
 				<input type="button" class="button pco-image-select" value="<?php _pcoiw_e( 'Select image' ); ?>" data-title="<?php echo $title; ?>" data-update="<?php echo $update; ?>" data-target="<?php echo $image_id; ?>" />
 				<input type="hidden" class="pco-image-id" name="<?php echo $obj->get_field_name( $field ); ?>" id="<?php echo $image_id; ?>">
 			</div>
-			<div class="image-section">
+			<div class="image-section" style="display:<?php echo $display_image; ?>;">
 				<div class="image">
 					<img src="<?php echo $src ?>" />
 				</div>
